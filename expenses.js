@@ -1,10 +1,4 @@
-import { connectDB, 
-    deleteTransaction, 
-    changeTransaction,
-    uploadData,
-    getTransactionsByPeriod
-} from './db.js';
-
+import { getTransactionsByPeriod} from './db.js';
 import { displayTransactions } from './js/displayTransactions.js';
 import { selectCurrentMonth } from './js/selectCurrentMonth.js';
 import { callContextMenu } from './js/callContextMenu.js';

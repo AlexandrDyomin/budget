@@ -4,7 +4,7 @@ import {
     read
 } from './db.js';
 import { changeTransaction as changeLimit } from './db.js';
-import { toMonetaryFormat } from "/js/toMonetaryFormat.js";
+import { toMonetaryFormat } from "./js/toMonetaryFormat.js";
 
 // выбор бюджета за текущий месяц
 let period = document.querySelector('.period');

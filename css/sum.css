@@ -1,0 +1,9 @@
+.sum {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.sum::after {
+    content: " \20BD"
+}

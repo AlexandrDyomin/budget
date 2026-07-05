@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="settings.css">
+    <script type="module" src="settings.js" defer></script>
+    <title>Настройки</title>
+
+</head>
+<body>
+    <template id="category">
+        <li class="category">
+            <input type="text">
+        </li>
+    </template>
+    <header>
+        <div class="container flex-col">
+            <h1>Настройки</h1>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="buttons">
+                 <div class="upload" title="Загрузить файл БД">
+                    <input type="file" accept="application/json">
+                    <span class="upload__btn small-btn">Загрузить файл</span>
+                </div>
+                <a class="download"  download="budget.json" title="Скачать файл БД">Скачать файл</a>
+            </div>
+            <div class="new-category">
+                <div class="flex" style="align-items: center;">
+                    <input type="text" placeholder="Новая категория">
+                    <label>
+                        <input type="radio" name="type"  value="Доход">
+                        <span>Доход</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="type" checked value="Расход">
+                        <span>Расход</span>
+                    </label>
+                </div>
+                <div class="flex" style="margin-top: 15px;">
+                    <button class="add-сategory" disabled>Добавить</button>
+                </div>
+            </div>
+            <div class="list flex">
+                <div class="incomes">
+                    <h2>Доходы</h2>
+                    <ul>
+                        
+                    </ul>
+                </div>
+                <div class="expenses">
+                    <h2>Расходы</h2>
+                    <ul>
+                        
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <nav>
+                  <ul class="links">
+                    <li class="link" title="Добавить транзакцию">
+                        <a href="/">
+                            <img src="img/deposit.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link" title="Доходы">
+                        <a href="/incomes">
+                            <img src="img/income.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link" title="Расходы">
+                        <a href="/expenses">
+                            <img src="img/spending.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link" title="Бюджет">
+                        <a href="/budget.html">
+                            <img src="img/budget.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link" title="Отчет">
+                        <a href="/summary">
+                            <img src="img/data-analysis.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+</body>
+</html>

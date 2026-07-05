@@ -1,0 +1,22 @@
+.transaction input[type=date],
+.transaction input[type=number],
+.transaction input[type=text],
+.transaction select,
+.transaction button {
+    width: 100%;
+    border-radius: 7px;
+    border: 1px solid black;
+    padding: 7px 5px;
+}
+
+.transaction div {
+    margin-bottom: 10px;
+}
+
+.transaction button:disabled {
+    border: 1px solid rgb(118, 118, 118);
+}
+
+.transaction button {
+    cursor: pointer;
+}

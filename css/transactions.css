@@ -1,0 +1,28 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td {
+    min-width: 100px;
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #DDD;
+}
+
+tr.first {
+    background-color: rgb(79, 128, 138);
+    color: white;
+}
+
+td.date {
+    text-align: center;
+}
+
+tr.second:hover {
+    background-color: #D6EEEE;
+}
+
+td.amount::after {
+    content: " \20BD";
+}

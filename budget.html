@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="budget.css">
+    <script type="module" src="budget.js" defer></script>
+    <title>Бюджет</title>
+</head>
+<body>
+
+    <template id="tr">
+        <tr class="record">
+            <td class="category"></td>
+            <td class="limit">
+                <input type="number" name="limit" step="1" min="0" placeholder="0">
+            </td>
+        </tr>
+    </template>
+      
+    <header>
+        <div class="container flex-col">
+            <a class="categories" href="settings.html" title="Настройки">
+                <img src="/img/gear.png" alt="" width="25px" height="25px">
+            </a>
+            <h1>Бюджет</h1>
+            <div class="sum">0</div>
+            <div class="period">
+                <select name="month">
+                    <option value="01">январь</option>
+                    <option value="02">февраль</option>
+                    <option value="03">март</option>
+                    <option value="04">апрель</option>
+                    <option value="05">май</option>
+                    <option value="06">июнь</option>
+                    <option value="07">июль</option>
+                    <option value="08">август</option>
+                    <option value="09">сентябрь</option>
+                    <option value="10">октябрь</option>
+                    <option value="11">ноябрь</option>
+                    <option value="12">декабрь</option>
+                </select> 
+                <input type="number" name="year" value="" step="1" min="1900" max="9999">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div style="overflow: auto; padding-bottom: 10px;">
+                <table class="budget"></table>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <nav>
+                  <ul class="links">
+                    <li class="link" title="Добавить транзакцию">
+                        <a href="/">
+                            <img src="img/deposit.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link" title="Доходы">
+                        <a href="/incomes">
+                            <img src="img/income.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link" title="Расходы">
+                        <a href="/expenses">
+                            <img src="img/spending.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link active" title="Бюджет">
+                        <a href="/budget.html">
+                            <img src="img/budget.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link" title="Отчет">
+                        <a href="/summary">
+                            <img src="img/data-analysis.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+</body>
+</html>

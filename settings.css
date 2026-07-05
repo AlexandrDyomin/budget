@@ -1,0 +1,122 @@
+@import url('css/base.css');
+
+.list {
+    border: 1px solid black;
+    border-radius: 7px;
+    padding: 20px 10px;
+}
+
+.flex {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.list h2 {
+    font-size: 18px;
+    margin: 0;
+    margin-bottom: 15px;
+}
+
+.category {
+    margin-bottom: 10px;
+}
+
+.category input[type=text] {
+    width: 100%;
+}
+
+.new-category {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    border: 2px dotted black;
+    padding: 10px;
+    border-radius: 7px;
+}
+
+.new-category input[type=text] {
+    max-width: 45%;
+}
+
+input[type=text] {
+    border: 1px solid black;
+    border-radius: 7px;
+    padding: 5px;
+
+}
+
+.add-сategory {
+    color: white;
+    border-radius: 7px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+.add-сategory:disabled {
+    background: rgba(138, 44, 226, 0.568);
+    border: 1px solid grey;
+}
+
+.add-сategory:enabled {
+    background: rgb(138, 44, 226);
+}
+
+
+.buttons {
+    width: max-content;
+    margin: 0 auto 30px;
+}
+
+.upload {
+   display: inline-block;
+   margin-right: 20px;
+}
+
+.upload span,
+.download
+ {
+    padding: 5px 10px;
+    border: 1px solid black;
+    border-radius:7px;
+    background: white;
+    cursor: pointer;
+
+}
+
+.upload input[type=file] {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+	display: block;
+	width: 0;
+	height: 0;
+}
+
+/* Focus */
+.upload input[type=file]:focus + span {
+    outline: 1px solid black;
+	outline-offset: 0px;
+}
+ 
+/* Hover/active */
+.upload:hover span,
+.download:hover {
+	background: rgb(206, 206, 206);
+}
+
+.upload:active span,
+.download:active {
+	background: rgb(130, 130, 130);
+}
+
+.download {
+    text-decoration: none;
+    color: black;
+}
+
+.upload,
+.download {
+    font-style: normal;
+    text-align: center;
+}

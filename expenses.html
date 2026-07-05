@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="expenses.css">
+    <script type="module" src="expenses.js" defer></script>
+    <title>Расходы</title>
+</head>
+<body>
+   <template id="transaction">
+       <tbody class="transaction">
+            <tr class="first">
+                <td class="date" colspan="3"></td>
+            </tr>
+        </tbody>
+    </template>
+    <template id="row-second">
+        <tr class="second">
+            <td class="category"></td>
+            <td class="amount"></td>
+            <td class="comment" ></td>
+        </tr>
+    </template>
+    <header>
+        <div class="container flex-col">
+            <a class="categories" href="settings.html"  title="Настройки">
+                <img src="/img/gear.png" alt="" width="25px" height="25px">
+            </a>
+            <h1>Расходы</h1>
+            <div class="sum">0</div>
+            <div class="period">
+                <input type="date" name="start"> - 
+                <input type="date" name="end">
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div style="overflow: auto; padding-bottom: 10px;">
+                <table class="transactions"></table>
+            </div>
+        </div>
+        <dialog class="modal">
+             <form class="transaction" name="transaction">
+                <div class="date">
+                    <input type="date" name="date">
+                </div>
+
+                <div class="type">
+                    <input id="expenses" type="radio" name="type" value="Расход" checked>
+                    <label for="expenses">Расход</label>
+                    <input id="incomes" type="radio" name="type" value="Доход">
+                    <label for="incomes">Доход</label>
+                </div>
+
+                <div class="amount">
+                    <input type="number" name="amount" placeholder="Сумма">
+                </div>
+
+                <div class="category">
+                    <select name="category">
+                        <option value="" selected>Категория</option>
+                    </select>
+                </div>
+
+                <div class="comment">
+                    <input type="text" name="comment" placeholder="Комментарий" maxlength="15">
+                </div>
+                
+                <div class="buttons">
+                    <button class="edit"  name="edit" type="button" disabled>Изменить</button>
+                    <button class="delete"  name="delete" type="button">Удалить</button>
+                    <button class="cancel"  name="cancel" type="button">Отмена</button>
+                </div>
+            </form>
+        </dialog>
+    </main>
+    <footer>
+        <div class="container">
+            <nav>
+               <ul class="links">
+                    <li class="link" title="Добавить транзакцию">
+                        <a href="/">
+                            <img src="img/deposit.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link" title="Доходы">
+                        <a href="/incomes">
+                            <img src="img/income.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link active" title="Расходы">
+                        <a href="/expenses">
+                            <img src="img/spending.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link" title="Бюджет">
+                        <a href="/budget.html">
+                            <img src="img/budget.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link" title="Отчет">
+                        <a href="/summary">
+                            <img src="img/data-analysis.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                </ul>
+        </div>
+    </footer>
+</body>
+</html>

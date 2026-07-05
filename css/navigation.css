@@ -1,0 +1,32 @@
+nav .links{
+    display: flex;
+    gap: 10px;
+    margin: 0 auto;
+    width: min-content;
+}
+
+nav .links .active {
+    outline-width: 2px;
+    outline-color: rgb(168, 0, 132);
+}
+
+nav .link {
+    width: 42px;
+    height: 42px;
+    margin: 10px;
+    outline: 1px solid black;
+    outline-offset: 5px;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0px 0px 0px 5px white;
+}
+
+nav .link:hover {
+    cursor: pointer;
+    outline-width: 2px;
+}
+
+nav .link img {
+    width: 100%;
+}
+

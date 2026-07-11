@@ -50,7 +50,6 @@ export function displayTransactions(categories) {
                     .textContent = toMonetaryFormat(currentSum);
             } else {
                 currentSum += transaction.amount;
-                console.log(currentSum)
                 let body = transactions.at(-1).querySelector('.transaction');
                 body.querySelector('.day-amount')
                     .textContent = toMonetaryFormat(currentSum);

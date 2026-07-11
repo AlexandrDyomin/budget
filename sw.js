@@ -38,6 +38,7 @@ const URLS_TO_CASH = [
     'js/toggleButton.js',
     'js/prepareDataTransactionFromForm.js',
     'js/toMonetaryFormat.js',
+    'js/toggleMonth.js'
 ]
 
 // При установке воркера мы должны закешировать часть данных (статику).

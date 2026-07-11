@@ -80,6 +80,7 @@ function edit(e) {
 let downloadBtn = document.querySelector('.download');
 connectDB(async (req) => {
     URL.revokeObjectURL(downloadBtn.href);
+    downloadBtn.download = 'budget(' + new Date().toLocaleDateString() +  ').json';
     downloadBtn.href = URL.createObjectURL(await prepareData(req));
     downloadBtn.addEventListener('click', saveDb);
     

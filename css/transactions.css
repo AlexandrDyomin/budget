@@ -28,5 +28,3 @@ td.amount::after,
 td.day-amount::after {
     content: " \20BD";
 }
-
- 

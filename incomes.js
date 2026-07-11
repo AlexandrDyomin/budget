@@ -2,6 +2,7 @@ import { getTransactionsByPeriod } from './db.js';
 import { displayTransactions } from './js/displayTransactions.js';
 import { selectCurrentMonth } from './js/selectCurrentMonth.js';
 import { callContextMenu } from './js/callContextMenu.js';
+import { toggleMont } from './js/toggleMonth.js';
 
 selectCurrentMonth();
 let calendarStart = document.querySelector('.period input[name=start]');
@@ -16,6 +17,8 @@ period.addEventListener('change', (e) => {
 
 // отобразим доход за текущий месяц
 period.dispatchEvent(new Event('change'));
+
+period.addEventListener('click', toggleMont);
 
 // вызов меню 
 let table = document.querySelector('.transactions');

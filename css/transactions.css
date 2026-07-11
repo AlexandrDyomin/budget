@@ -15,14 +15,18 @@ tr.first {
     color: white;
 }
 
-td.date {
-    text-align: center;
+td.date,
+td.day-amount {
+    text-align: left;
 }
 
 tr.second:hover {
     background-color: #D6EEEE;
 }
 
-td.amount::after {
+td.amount::after,
+td.day-amount::after {
     content: " \20BD";
 }
+
+ 

@@ -18,6 +18,7 @@ const URLS_TO_CASH = [
     'settings.html',
     'settings.js',
     'settings.css',
+    'summary.html',
 
 
     // импорты css
@@ -27,6 +28,7 @@ const URLS_TO_CASH = [
     'css/sum.css',
     'css/transactionForm.css',
     'css/transactions.css',
+    'summary.css',
 
     // импорты js
     'js/callContextMenu.js',
@@ -38,7 +40,8 @@ const URLS_TO_CASH = [
     'js/toggleButton.js',
     'js/prepareDataTransactionFromForm.js',
     'js/toMonetaryFormat.js',
-    'js/toggleMonth.js'
+    'js/toggleMonth.js',
+    'summary.js'
 ]
 
 // При установке воркера мы должны закешировать часть данных (статику).

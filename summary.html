@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="summary.css">
+    <script type="module" src="summary.js" defer></script>
+    <title>Отчет</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Отчёт</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+          
+            <table class="year-summary">
+                <tbody>
+                    <tr class="year">
+                        <td colspan="2">
+                            <button class="prevYear"><</button>
+                            <input type="number" name="year" step="1" min="1900" max="9999">
+                            <button class="nextYear">></button>
+                        </td>
+                    </tr>
+                    <tr class="salary">
+                        <td>Зарплата</td>
+                        <td class="amount">0</td>
+                    </tr>
+                    <tr class="advance">
+                        <td>Аванс</td>
+                        <td class="amount">0</td>
+                    </tr>
+                    <tr class="truck">
+                        <td>Фура</td>
+                        <td class="amount">0</td>
+                    </tr>
+                    <tr class="delivery">
+                        <td>Доставка</td>
+                        <td class="amount">0</td>
+                    </tr>
+                    <tr class="gifts">
+                        <td>Подарки</td>
+                        <td class="amount">0</td>
+                    </tr>
+                    <tr class="result">
+                        <td>Доходы</td>
+                        <td class="amount">0</td>
+                    </tr>
+                    <tr class="expenses">
+                        <td>Расходы</td>
+                        <td class="amount">0</td>
+                    </tr>
+                    <tr class="balance">
+                        <td>Баланс</td>
+                        <td class="amount">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+     <footer>
+        <div class="container">
+            <nav>
+               <ul class="links">
+                    <li class="link" title="Добавить транзакцию">
+                        <a href="index.html">
+                            <img src="img/deposit.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link" title="Доходы">
+                        <a href="incomes.html">
+                            <img src="img/income.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link" title="Расходы">
+                        <a href="expenses.html">
+                            <img src="img/spending.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link" title="Бюджет">
+                        <a href="budget.html">
+                            <img src="img/budget.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                    <li class="link active" title="Отчет">
+                        <a href="summary.html">
+                            <img src="img/data-analysis.png" alt="" width="42" height="42">
+                        </a>
+                    </li>
+                </ul>
+        </div>
+    </footer>
+</body>
+</html>

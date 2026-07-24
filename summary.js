@@ -41,13 +41,14 @@ dom.year.addEventListener('change', () => {
                 indexName: 'type',
                 query: 'Доход'
             }, (res) => {
+                console.log(res)
                 let incomesId = {
                     salary: res.find((item) => item.name === 'Зарплата').id,
                     advance: res.find((item) => item.name === 'Аванс').id,
                     truck: res.find((item) => item.name === 'Фура').id,
                     delivery: res.find((item) => item.name === 'Доставка').id,
                     gifts: res.find((item) => item.name === 'Подарок').id,
-                    loan: res.find((item) => item.name === 'Заём').id
+                    loan: res.find((item) => item.name === 'Заëм').id
                 };
 
                 let incomesValues = Object.values(incomesId);

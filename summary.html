@@ -10,17 +10,34 @@
     <title>Отчет</title>
 </head>
 <body>
+    <template id="tr">
+        <tr class="record">
+            <td class="category"></td>
+            <td class="plan"></td>
+            <td class="fact"></td>
+        </tr>
+    </template>
+
+    <template id="income">
+        <tr class="income">
+            <td class="category"></td>
+            <td class="amount"></td>
+        </tr>
+    </template>
+
     <header>
         <div class="container">
+            <a class="categories" href="settings.html"  title="Настройки">
+                <img src="img/gear.png" alt="" width="25px" height="25px">
+            </a>
             <h1>Отчёт</h1>
         </div>
     </header>
 
     <main>
-        <div class="container">
-          
+        <div class="container"> 
             <table class="year-summary">
-                <tbody>
+                <thead>
                     <tr class="year">
                         <td colspan="2">
                             <button class="prevYear"><</button>
@@ -28,26 +45,14 @@
                             <button class="nextYear">></button>
                         </td>
                     </tr>
-                    <tr class="salary">
-                        <td>Зарплата</td>
-                        <td class="amount">0</td>
-                    </tr>
-                    <tr class="advance">
-                        <td>Аванс</td>
-                        <td class="amount">0</td>
-                    </tr>
-                    <tr class="truck">
-                        <td>Фура</td>
-                        <td class="amount">0</td>
-                    </tr>
-                    <tr class="delivery">
-                        <td>Доставка</td>
-                        <td class="amount">0</td>
-                    </tr>
-                    <tr class="gifts">
-                        <td>Подарки</td>
-                        <td class="amount">0</td>
-                    </tr>
+                </thead>
+
+                <tbody>
+                    
+
+                    
+                </tbody>
+                <tfoot>
                     <tr class="result">
                         <td>Доходы</td>
                         <td class="amount">0</td>
@@ -60,8 +65,25 @@
                         <td>Баланс</td>
                         <td class="amount">0</td>
                     </tr>
-                </tbody>
+                </tfoot>
             </table>
+
+        </div>
+
+        <div class="container flex-col" style="margin-top: 30px;">
+            <div class="period">
+                <input type="date" name="start"> - 
+                <input type="date" name="end">
+                <div class="toggle-month">
+                    <button class="prev"><</button>
+                    <button class="next">></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+
+
         </div>
     </main>
 

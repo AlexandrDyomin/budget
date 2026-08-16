@@ -1,19 +1,20 @@
 import { connectDB, readAll } from "./db.js";
 import { toMonetaryFormat } from "./js/toMonetaryFormat.js";
+import { selectCurrentMonth } from "./js/selectCurrentMonth.js";
+import { toggleMont } from "./js/toggleMonth.js";
 
 
 let dom = {
-    salary: document.querySelector('.salary .amount'),
-    advance: document.querySelector('.advance .amount'),
-    truck: document.querySelector('.truck .amount'),
-    delivery: document.querySelector('.delivery .amount'),
-    gifts: document.querySelector('.gifts .amount'),
+    tbody: document.querySelector('.year-summary tbody'),
     result: document.querySelector('.result .amount'),
     balance: document.querySelector('.balance .amount'),
     expenses: document.querySelector('.expenses .amount'),
     year: document.querySelector('input[name="year"]'),
     prevYear: document.querySelector('.prevYear'),
-    nextYear: document.querySelector('.nextYear')
+    nextYear: document.querySelector('.nextYear'),
+    period:  document.querySelector('.period'),
+    calendarStart: document.querySelector('.period input[name=start]'),
+    calendarEnd: document.querySelector('.period input[name=end]')
 }
 
 dom.prevYear.addEventListener('click', (e) => {
@@ -41,15 +42,10 @@ dom.year.addEventListener('change', () => {
                 indexName: 'type',
                 query: 'Доход'
             }, (res) => {
-                console.log(res)
-                let incomesId = {
-                    salary: res.find((item) => item.name === 'Зарплата').id,
-                    advance: res.find((item) => item.name === 'Аванс').id,
-                    truck: res.find((item) => item.name === 'Фура').id,
-                    delivery: res.find((item) => item.name === 'Доставка').id,
-                    gifts: res.find((item) => item.name === 'Подарок').id,
-                    loan: res.find((item) => item.name === 'Заëм').id
-                };
+                let incomesId = res.reduce((acc, item) => {
+                    acc[item.name] = item.id;
+                    return acc;
+                }, {});
 
                 let incomesValues = Object.values(incomesId);
                 let incomes = transactions.filter((item) => {
@@ -62,9 +58,19 @@ dom.year.addEventListener('change', () => {
                     return acc;
                 }, {});
 
+                let records = [];
                 for (let key in totalIncomes) {
-                    dom[key].textContent = toMonetaryFormat(totalIncomes[key]);
+                    let incomeTempl = document.querySelector('#income');
+                    let incomeClone = incomeTempl.content.cloneNode(true);
+                    let category = incomeClone.querySelector('.category');
+                    let amount = incomeClone.querySelector('.amount');
+                    category.textContent = key;
+                    amount.textContent = toMonetaryFormat(totalIncomes[key]);
+                    records.push(incomeClone);
                 }
+
+                dom.tbody.replaceChildren();
+                dom.tbody.append(...records);
 
                 let amountIncomes = Object.values(totalIncomes).reduce((acc, item) => acc + item, 0);
                 dom.result.textContent = toMonetaryFormat(amountIncomes);
@@ -80,3 +86,57 @@ dom.year.addEventListener('change', () => {
 });
 
 dom.year.dispatchEvent(new Event('change'));
+
+dom.period.addEventListener('change', (e) => {
+    let start = calendarStart.value;
+    let end = calendarEnd.value;
+
+    
+    // let monthSelected = month.value + '.' + year.value;
+    let storeParams = { 
+        storeName: 'categories', 
+        indexName: 'type', 
+        query: 'Расход' 
+    };
+        
+    connectDB((e) => readAll(e, storeParams, (res) => {
+        table.replaceChildren();
+        let templ = document.querySelector('#tr');
+        let length = res.length;
+        let rows = [];
+        res.forEach((item, i) => {
+            connectDB((e) => read(e, { storeName: 'budgets', query: [monthSelected, item.id] }, (res) => {
+                if (!res) {
+                    res = {
+                        month: monthSelected,
+                        category: item.id,
+                        limit: 0
+                    };
+                }
+                connectDB((e) => {
+                    read(e, { storeName: 'categories', query: item.id }, (data) => {
+                        let templClone = templ.content.cloneNode(true);
+                        let category = templClone.querySelector('.category');
+                        category.textContent = data.name;
+                        let plan = category.nextElementChild;
+                        plan.textContent = data.limit
+                        rows.push(templClone);
+                        if (i === length - 1) {
+                            table.append(...rows);  
+                        }
+                    });
+                });
+            }));
+        })
+    }));
+});
+
+dom.period.dispatchEvent(new Event('change'));
+
+
+selectCurrentMonth();
+dom.period.addEventListener('click', toggleMont);
+
+
+
+

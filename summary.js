@@ -46,11 +46,12 @@ dom.year.addEventListener('change', () => {
                     acc[item.name] = item.id;
                     return acc;
                 }, {});
-
+                
                 let incomesValues = Object.values(incomesId);
                 let incomes = transactions.filter((item) => {
                     return incomesValues.includes(item.categoryId);
                 });
+                
                 let incomesKeys = Object.keys(incomesId);
                 let totalIncomes = incomes.reduce((acc, item) => {
                     let key = incomesKeys.find((key) => incomesId[key] === item.categoryId);
@@ -86,55 +87,29 @@ dom.year.addEventListener('change', () => {
 });
 
 dom.year.dispatchEvent(new Event('change'));
+selectCurrentMonth();
 
 dom.period.addEventListener('change', (e) => {
-    let start = calendarStart.value;
-    let end = calendarEnd.value;
+    let start = dom.calendarStart.value;
+    let end = dom.calendarEnd.value;
+    console.log(start)
 
+    connectDB((e) => {
+        readAll(e, {
+            storeName: 'budgets',
+            indexName: 'month',
+            query: IDBKeyRange.bound(`${start.slice(5,7)}.${start.slice(0, 4)}`, `${end.slice(5,7)}.${end.slice(0, 4)}`)
+        }, (res) => console.log(res))
+    });
     
-    // let monthSelected = month.value + '.' + year.value;
-    let storeParams = { 
-        storeName: 'categories', 
-        indexName: 'type', 
-        query: 'Расход' 
-    };
+ 
         
-    connectDB((e) => readAll(e, storeParams, (res) => {
-        table.replaceChildren();
-        let templ = document.querySelector('#tr');
-        let length = res.length;
-        let rows = [];
-        res.forEach((item, i) => {
-            connectDB((e) => read(e, { storeName: 'budgets', query: [monthSelected, item.id] }, (res) => {
-                if (!res) {
-                    res = {
-                        month: monthSelected,
-                        category: item.id,
-                        limit: 0
-                    };
-                }
-                connectDB((e) => {
-                    read(e, { storeName: 'categories', query: item.id }, (data) => {
-                        let templClone = templ.content.cloneNode(true);
-                        let category = templClone.querySelector('.category');
-                        category.textContent = data.name;
-                        let plan = category.nextElementChild;
-                        plan.textContent = data.limit
-                        rows.push(templClone);
-                        if (i === length - 1) {
-                            table.append(...rows);  
-                        }
-                    });
-                });
-            }));
-        })
-    }));
+   
 });
 
 dom.period.dispatchEvent(new Event('change'));
 
 
-selectCurrentMonth();
 dom.period.addEventListener('click', toggleMont);
 
 

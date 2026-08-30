@@ -35,14 +35,14 @@ const URLS_TO_CASH = [
     'js/callContextMenu.js',
     'js/categories.js',
     'js/displayCategories.js',
-    'js/displaySummary.js',
+    // 'js/displaySummary.js',
     'js/displayTransactions.js',
     'js/selectCurrentMonth.js',
     'js/toggleButton.js',
     'js/prepareDataTransactionFromForm.js',
     'js/toMonetaryFormat.js',
     'js/toggleMonth.js',
-]
+];
 
 // При установке воркера мы должны закешировать часть данных (статику).
 self.addEventListener('install', (event) => {

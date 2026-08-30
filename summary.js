@@ -96,24 +96,72 @@ selectCurrentMonth();
 dom.period.addEventListener('change', (e) => {
     let start = dom.calendarStart.value;
     let end = dom.calendarEnd.value;
-    console.log(start)
-
+    let tbody = document.querySelector('.month-summary tbody');
+    tbody.replaceChildren();
     connectDB((e) => {
+        // читаем бюджет за период
         readAll(e, {
             storeName: 'budgets',
             indexName: 'month',
             query: IDBKeyRange.bound(`${start.slice(5,7)}.${start.slice(0, 4)}`, `${end.slice(5,7)}.${end.slice(0, 4)}`)
-        }, (res) => console.log(res))
+        }, (budget) => {
+            // читаем транзакции за период
+            readAll(e, {
+                storeName: 'transactions',
+                indexName: 'date',
+                query: IDBKeyRange.bound(start, end)
+            }, (transactions) => {
+                // читаем существующие категории трат
+                readAll(e, {
+                    storeName: 'categories',
+                    indexName: 'type',
+                    query: 'Расход'
+                }, (categories) => {
+                    let categoriesId = categories.reduce((acc, item) => {
+                        acc[item.id] = item.name;
+                        return acc;
+                    }, {});
+
+                    // суммируем фактические расходы
+                    let fact = transactions.reduce((acc, item) => {
+                        if (!categoriesId[item.categoryId]) return acc;
+                        if (acc[item.categoryId]) {
+                            acc[item.categoryId] += item.amount;
+                        } else {
+                            acc[item.categoryId] = item.amount;
+                        }
+                        return acc;
+                    }, {});
+
+                    // суммируем планируемые расходы по одинаковым категориям
+                    let plan = budget.reduce((acc, item) => {
+                        if (acc[item.category]) {
+                            acc[item.category] += item.limit;
+                        } else {
+                            acc[item.category] = item.limit;
+                        }
+                        return acc;
+                    }, {});
+                  
+                    // заполним таблицу
+                    let rowTmpl = document.querySelector('#tr');
+                    let rows = [];
+                    for (let [key, val] of Object.entries(fact)) {
+                        let rowTemplClone = rowTmpl.content.cloneNode(true);
+                        let [categoryCell, planCell, factCell] = rowTemplClone.querySelector('.record').children;
+                        categoryCell.textContent = categoriesId[key];
+                        planCell.textContent = plan[key] || 0;
+                        factCell.textContent = val;
+                        rows.push(rowTemplClone);
+                    }
+                    tbody.append(...rows);
+                });
+            });
+        });
     });
-    
- 
-        
-   
 });
 
 dom.period.dispatchEvent(new Event('change'));
-
-
 dom.period.addEventListener('click', toggleMont);
 
 

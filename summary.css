@@ -11,7 +11,6 @@ table {
 }
 
 td {
-    min-width: 140px;
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid #DDD;
@@ -54,4 +53,13 @@ input[name=year] {
     font-weight: bold;
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.head  {
+    background-color: rgb(79, 128, 138);
+    color: white;
+}
+
+.head:hover {
+    color: black;
 }

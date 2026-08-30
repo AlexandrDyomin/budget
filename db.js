@@ -2,7 +2,7 @@
 export function connectDB(f = () => console.log('Соединение с БД установлено')) {
     
     const DB_NAME = 'budget';
-    const DB_VERSION = 5;
+    const DB_VERSION = 1;
     let request = indexedDB.open(DB_NAME, DB_VERSION);
     request.onupgradeneeded = initDB;
     request.onsuccess = f;
@@ -10,27 +10,17 @@ export function connectDB(f = () => console.log('Соединение с БД у
     
     function initDB(e) {
         let db = e.target.result;
-        let transaction = e.target.transaction; // Получаем доступ к текущему обновлению
-
-        if (e.oldVetsion < 1) {
-            db.createObjectStore('budgets', { keyPath: ['month', 'category'] });
-            let categories = db.createObjectStore('categories', { keyPath: 'id', autoIncrement: true });
-            categories.createIndex('type', 'type', { unique: false });
-            let transactions = db.createObjectStore('transactions', { keyPath: 'id', autoIncrement: true});
-            transactions.createIndex('date', 'date', { unique: false });
-            transactions.createIndex('categoryId', 'categoryId', { unique: false });
-            
-            // Заполним таблицу categories
-            import('./js/categories.js')
-                .then((res) => uploadData(e,res.categories));
-        }
-
-        if (e.oldVetsion === 4) {
-            let store = transaction.objectStore('budgets');
-            
-            // Добавляем в него ваш новый индекс по месяцу
-            store.createIndex('month', 'month', { unique: false });
-        }
+        let budgets = db.createObjectStore('budgets', { keyPath: ['month', 'category'] });
+        budgets.createIndex('month', 'month', { unique: false });
+        let categories = db.createObjectStore('categories', { keyPath: 'id', autoIncrement: true });
+        categories.createIndex('type', 'type', { unique: false });
+        let transactions = db.createObjectStore('transactions', { keyPath: 'id', autoIncrement: true});
+        transactions.createIndex('date', 'date', { unique: false });
+        transactions.createIndex('categoryId', 'categoryId', { unique: false });
+        
+        // Заполним таблицу categories
+        import('./js/categories.js')
+            .then((res) => uploadData(e,res.categories));
     }
 
     function logerr(e) {

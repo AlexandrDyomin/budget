@@ -1,7 +1,7 @@
 const CACHE_NAME = 'cache-only-v1';
 const URLS_TO_CASH = [
     // главные файлы
-    './',
+    '/',
     'manifest.json',
     'index.html',
     'style.css',
@@ -19,6 +19,8 @@ const URLS_TO_CASH = [
     'settings.js',
     'settings.css',
     'summary.html',
+    'summary.js',
+    'summary.css',
 
 
     // импорты css
@@ -28,7 +30,6 @@ const URLS_TO_CASH = [
     'css/sum.css',
     'css/transactionForm.css',
     'css/transactions.css',
-    'summary.css',
 
     // импорты js
     'js/callContextMenu.js',
@@ -41,7 +42,6 @@ const URLS_TO_CASH = [
     'js/prepareDataTransactionFromForm.js',
     'js/toMonetaryFormat.js',
     'js/toggleMonth.js',
-    'summary.js'
 ]
 
 // При установке воркера мы должны закешировать часть данных (статику).

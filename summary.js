@@ -58,22 +58,26 @@ dom.year.addEventListener('change', () => {
                     acc[key] = (acc[key] || 0) + item.amount;
                     return acc;
                 }, {});
+                
+                let totalIncomesSorted = Object.fromEntries(
+                    Object.entries(totalIncomes).sort(([, val1], [, val2]) => val2  - val1)
+                );
 
                 let records = [];
-                for (let key in totalIncomes) {
+                for (let key in totalIncomesSorted) {
                     let incomeTempl = document.querySelector('#income');
                     let incomeClone = incomeTempl.content.cloneNode(true);
                     let category = incomeClone.querySelector('.category');
                     let amount = incomeClone.querySelector('.amount');
                     category.textContent = key;
-                    amount.textContent = toMonetaryFormat(totalIncomes[key]);
+                    amount.textContent = toMonetaryFormat(totalIncomesSorted[key]);
                     records.push(incomeClone);
                 }
 
                 dom.tbody.replaceChildren();
                 dom.tbody.append(...records);
 
-                let amountIncomes = Object.values(totalIncomes).reduce((acc, item) => acc + item, 0);
+                let amountIncomes = Object.values(totalIncomesSorted).reduce((acc, item) => acc + item, 0);
                 dom.result.textContent = toMonetaryFormat(amountIncomes);
 
                 let expenses = transactions.filter((item) => !incomesValues.includes(item.categoryId));

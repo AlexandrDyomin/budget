@@ -7,12 +7,12 @@ import { toggleButton } from './js/toggleButton.js';
 import { prepareDataTransactionFromForm } from './js/prepareDataTransactionFromForm.js';
 
 // подключим воркер
-// navigator.serviceWorker.register('./sw.js')
-//     .then(() => navigator.serviceWorker.ready)
-//     .then((worker) => {
-//         worker.sync.register('syncdata');
-//     })
-//     .catch((err) => console.log(err));
+navigator.serviceWorker.register('./sw.js')
+    .then(() => navigator.serviceWorker.ready)
+    .then((worker) => {
+        worker.sync.register('syncdata');
+    })
+    .catch((err) => console.log(err));
 
 // найдем нужные элементы
 let form = document.forms.transaction;

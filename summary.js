@@ -100,16 +100,26 @@ dom.period.addEventListener('change', (e) => {
     tbody.replaceChildren();
     connectDB((e) => {
         // читаем бюджет за период
+        try {
+            var bound = IDBKeyRange.bound(`${start.slice(5,7)}.${start.slice(0, 4)}`, `${end.slice(5,7)}.${end.slice(0, 4)}`);
+        } catch(e) {
+            bound = IDBKeyRange.bound(`${end.slice(5,7)}.${end.slice(0, 4)}`, `${start.slice(5,7)}.${start.slice(0, 4)}`);
+        }
         readAll(e, {
             storeName: 'budgets',
             indexName: 'month',
-            query: IDBKeyRange.bound(`${start.slice(5,7)}.${start.slice(0, 4)}`, `${end.slice(5,7)}.${end.slice(0, 4)}`)
+            query: bound
         }, (budget) => {
             // читаем транзакции за период
+            try {
+                var bound = IDBKeyRange.bound(start, end);
+            } catch(e) {
+                bound = IDBKeyRange.bound(end, start);
+            }
             readAll(e, {
                 storeName: 'transactions',
                 indexName: 'date',
-                query: IDBKeyRange.bound(start, end)
+                query: bound
             }, (transactions) => {
                 // читаем существующие категории трат
                 readAll(e, {
@@ -142,18 +152,24 @@ dom.period.addEventListener('change', (e) => {
                         }
                         return acc;
                     }, {});
-                  
                     // заполним таблицу
                     let rowTmpl = document.querySelector('#tr');
                     let rows = [];
-                    for (let [key, val] of Object.entries(fact)) {
+                    let planSum = 0;
+                    let factSum = 0;
+                    for (let key in plan) {
                         let rowTemplClone = rowTmpl.content.cloneNode(true);
                         let [categoryCell, planCell, factCell] = rowTemplClone.querySelector('.record').children;
                         categoryCell.textContent = categoriesId[key];
                         planCell.textContent = plan[key] || 0;
-                        factCell.textContent = val;
+                        factCell.textContent = fact[key] || 0;
                         rows.push(rowTemplClone);
+                        planSum += plan[key];
+                        factSum += fact[key] || 0;
                     }
+                    let [, planCell, factCell] = document.querySelector('.sum').children;
+                    planCell.textContent = planSum;
+                    factCell.textContent = factSum;
                     tbody.append(...rows);
                 });
             });

@@ -22,7 +22,8 @@ tr:hover {
 
 .result:hover,
 .expenses:hover,
-.balance:hover {
+.balance:hover,
+.sum:hover {
     color: black;
 }
 
@@ -37,7 +38,8 @@ tr:hover {
 
 .result,
 .expenses,
-.balance {
+.balance,
+.sum {
     background-color: rgb(79, 128, 138);
     color: white;
 }

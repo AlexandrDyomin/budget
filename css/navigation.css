@@ -1,8 +1,9 @@
 nav .links{
     display: flex;
-    gap: 10px;
+    gap: 7px;
     margin: 0 auto;
     width: min-content;
+    justify-content: center;
 }
 
 nav .links .active {

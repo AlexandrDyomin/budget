@@ -42,27 +42,7 @@ dom.year.addEventListener('change', () => {
                 indexName: 'type',
                 query: 'Доход'
             }, (res) => {
-                let incomesId = res.reduce((acc, item) => {
-                    acc[item.name] = item.id;
-                    return acc;
-                }, {});
-                
-                let incomesValues = Object.values(incomesId);
-                let incomes = transactions.filter((item) => {
-                    return incomesValues.includes(item.categoryId);
-                });
-                
-                let incomesKeys = Object.keys(incomesId);
-                let totalIncomes = incomes.reduce((acc, item) => {
-                    let key = incomesKeys.find((key) => incomesId[key] === item.categoryId);
-                    acc[key] = (acc[key] || 0) + item.amount;
-                    return acc;
-                }, {});
-                
-                let totalIncomesSorted = Object.fromEntries(
-                    Object.entries(totalIncomes).sort(([, val1], [, val2]) => val2  - val1)
-                );
-
+                let { totalIncomesSorted, totalExpenses, balance } = getIncomesByPeriod(res, transactions);
                 let records = [];
                 for (let key in totalIncomesSorted) {
                     let incomeTempl = document.querySelector('#income');
@@ -79,11 +59,7 @@ dom.year.addEventListener('change', () => {
 
                 let amountIncomes = Object.values(totalIncomesSorted).reduce((acc, item) => acc + item, 0);
                 dom.result.textContent = toMonetaryFormat(amountIncomes);
-
-                let expenses = transactions.filter((item) => !incomesValues.includes(item.categoryId));
-                let totalExpenses = expenses.reduce((acc, item) => acc + item.amount, 0);
                 dom.expenses.textContent = toMonetaryFormat(totalExpenses);
-
                 dom.balance.textContent = toMonetaryFormat(amountIncomes - totalExpenses);
             }));
         });
@@ -96,6 +72,52 @@ selectCurrentMonth();
 dom.period.addEventListener('change', (e) => {
     let start = dom.calendarStart.value;
     let end = dom.calendarEnd.value;
+
+    // ДОХОДЫ
+    connectDB((e) => {
+        try {
+            var bound = IDBKeyRange.bound(start, end);
+        } catch(e) {
+            bound = IDBKeyRange.bound(end, start);
+        }
+        readAll(e, {
+            storeName: 'transactions',
+            indexName: 'date',
+            query: bound
+        }, (transactions) => {
+            connectDB((e) => readAll(e, {
+                storeName: 'categories',
+                indexName: 'type',
+                query: 'Доход'
+            }, (res) => {
+                let { totalIncomesSorted, totalExpenses, balance } = getIncomesByPeriod(res, transactions);
+                let records = [];
+                for (let key in totalIncomesSorted) {
+                    let incomeTempl = document.querySelector('#income');
+                    let incomeClone = incomeTempl.content.cloneNode(true);
+                    let category = incomeClone.querySelector('.category');
+                    let amount = incomeClone.querySelector('.amount');
+                    category.textContent = key;
+                    amount.textContent = toMonetaryFormat(totalIncomesSorted[key]);
+                    records.push(incomeClone);
+                }
+
+                let tbody = document.querySelector('.incomes tbody');
+                tbody.replaceChildren();
+                tbody.append(...records);
+
+                let amountIncomes = Object.values(totalIncomesSorted).reduce((acc, item) => acc + item, 0);
+                let result = document.querySelector('.incomes tfoot .result .amount');
+                result.textContent = toMonetaryFormat(amountIncomes);
+                let expenses = document.querySelector('.incomes tfoot .expenses .amount');
+                expenses.textContent = toMonetaryFormat(totalExpenses);
+                let balanceCell = document.querySelector('.incomes tfoot .balance .amount');
+                balanceCell.textContent = toMonetaryFormat(amountIncomes - totalExpenses);
+            }));
+        });
+    });
+
+    // РАСХОДЫ
     let tbody = document.querySelector('.month-summary tbody');
     tbody.replaceChildren();
     connectDB((e) => {
@@ -152,19 +174,23 @@ dom.period.addEventListener('change', (e) => {
                         }
                         return acc;
                     }, {});
+
                     // заполним таблицу
                     let rowTmpl = document.querySelector('#tr');
                     let rows = [];
                     let planSum = 0;
                     let factSum = 0;
-                    for (let key in plan) {
+                    for (let key in categoriesId) {
+                        if ((plan[key] === 0 || plan[key] === undefined) 
+                            & (fact[key] === 0 || fact[key] === undefined)
+                        ) continue;
                         let rowTemplClone = rowTmpl.content.cloneNode(true);
                         let [categoryCell, planCell, factCell] = rowTemplClone.querySelector('.record').children;
                         categoryCell.textContent = categoriesId[key];
                         planCell.textContent = plan[key] || 0;
                         factCell.textContent = fact[key] || 0;
                         rows.push(rowTemplClone);
-                        planSum += plan[key];
+                        planSum += plan[key] || 0;
                         factSum += fact[key] || 0;
                     }
                     let [, planCell, factCell] = document.querySelector('.sum').children;
@@ -180,6 +206,36 @@ dom.period.addEventListener('change', (e) => {
 dom.period.dispatchEvent(new Event('change'));
 dom.period.addEventListener('click', toggleMont);
 
+function getIncomesByPeriod(categories, transactions) {
+    let incomesId = categories.reduce((acc, item) => {
+        acc[item.name] = item.id;
+        return acc;
+    }, {});
+    
+    let incomesValues = Object.values(incomesId);
+    let incomes = transactions.filter((item) => {
+        return incomesValues.includes(item.categoryId);
+    });
+    
+    let incomesKeys = Object.keys(incomesId);
+    let totalIncomes = incomes.reduce((acc, item) => {
+        let key = incomesKeys.find((key) => incomesId[key] === item.categoryId);
+        acc[key] = (acc[key] || 0) + item.amount;
+        return acc;
+    }, {});
+    
+    let totalIncomesSorted = Object.fromEntries(
+        Object.entries(totalIncomes).sort(([, val1], [, val2]) => val2  - val1)
+    );
 
+    let amountIncomes = Object.values(totalIncomesSorted).reduce((acc, item) => acc + item, 0);
+
+    let expenses = transactions.filter((item) => !incomesValues.includes(item.categoryId));
+    let totalExpenses = expenses.reduce((acc, item) => acc + item.amount, 0);
+    let balance = amountIncomes - totalExpenses;
+
+
+    return { totalIncomesSorted, totalExpenses, balance };
+}
 
 

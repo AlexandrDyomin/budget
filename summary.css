@@ -16,6 +16,16 @@ td {
     border-bottom: 1px solid #DDD;
 }
 
+th {
+    padding: 8px;
+    border-bottom: 1px solid #DDD;
+}
+
+thead tr {
+    background-color: rgb(79, 128, 138);
+    color: white;
+}
+
 tr:hover {
     background-color: #D6EEEE;
 }

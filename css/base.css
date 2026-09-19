@@ -46,6 +46,12 @@ h1 {
     margin-bottom: 10px;
 }
 
+h3 {
+    text-align: center;
+    margin: 0;
+    font-weight: 500;
+}
+
 footer {
     position: sticky;
     bottom: 0;
